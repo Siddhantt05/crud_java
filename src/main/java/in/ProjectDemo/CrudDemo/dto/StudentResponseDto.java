@@ -5,6 +5,8 @@ public class StudentResponseDto {
     private String name;
     private int age;
     private String email;
+    private int roll;
+    private String subject;
 
     public Long getId() {
         return id;
@@ -53,7 +55,4 @@ public class StudentResponseDto {
     public void setSubject(String subject) {
         this.subject = subject;
     }
-
-    private int roll;
-    private String subject;
 }

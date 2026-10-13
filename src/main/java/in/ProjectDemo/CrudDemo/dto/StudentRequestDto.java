@@ -13,6 +13,11 @@ public class StudentRequestDto {
     private String email;
     @NotNull
     private Integer roll;
+    private String Subject;
+
+    public void setRoll(Integer roll) {
+        this.roll = roll;
+    }
 
     public Long getId() {
         return id;

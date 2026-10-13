@@ -22,70 +22,40 @@ public  class StudentController {
         this.studentService=studentService;
     }
 
-    @PostMapping("/create")
-    public StudentResponseDto createStudent(@Valid @RequestBody StudentRequestDto studentRequestDto){
-        Student req = mapToEntityReq(studentRequestDto);
-        Student res = studentService.createStudent(req);
-        StudentResponseDto response = mapToDto(res);
-        return response;
+    @PostMapping
+    public ResponseEntity<StudentResponseDto> createStudent(@Valid @RequestBody StudentRequestDto studentRequestDto){
+
+        StudentResponseDto response = studentService.createStudent(studentRequestDto);
+
+        return ResponseEntity.ok(response);
     }
 
-    private StudentResponseDto mapToDto(Student res) {
-        StudentResponseDto response = new StudentResponseDto();
-        response.setAge(res.getAge());
-        response.setEmail(res.getEmail());
-        response.setId(res.getId());
-        response.setName(res.getName());
-        response.setRoll(res.getRoll());
-        return response;
-    }
 
-    private Student mapToEntityReq(StudentRequestDto studentRequestDto) {
-        Student entity = new Student();
-        entity.setAge(studentRequestDto.getAge());
-        entity.setEmail(studentRequestDto.getEmail());
-        entity.setId(studentRequestDto.getId());
-        entity.setName(studentRequestDto.getName());
-        entity.setRoll(studentRequestDto.getRoll());
-        return entity;
-    }
-    private Student mapToEntityRes(StudentResponseDto studentRequestDto) {
-        Student entity = new Student();
-        entity.setAge(studentRequestDto.getAge());
-        entity.setEmail(studentRequestDto.getEmail());
-        entity.setId(studentRequestDto.getId());
-        entity.setName(studentRequestDto.getName());
-        entity.setRoll(studentRequestDto.getRoll());
-        return entity;
-    }
 
 
     //read student
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<StudentResponseDto> getStudent(@PathVariable Long id){
-         Student response = studentService.getStudent(id);
+        StudentResponseDto response= studentService.getStudent(id);
          if(response==null)return  ResponseEntity.notFound().build();
              //return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-         return ResponseEntity.ok(mapToDto(response));
+         return ResponseEntity.ok(response);
     }
  //get all
-    @GetMapping("/getall")
+    @GetMapping
     public ResponseEntity<List<StudentResponseDto>> getall(){
-        List<Student> response = studentService.getall();
+        List<StudentResponseDto> response = studentService.getall();
         if(response==null)return  ResponseEntity.notFound().build();
-        List<StudentResponseDto> dtoResponse = new ArrayList<>();
-        for(Student student : response){
-            dtoResponse.add(mapToDto(student));
-        }
-        return ResponseEntity.ok(dtoResponse);
+
+        return ResponseEntity.ok(response);
     }
     //update student
-    @PutMapping("/updatestudent/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<StudentResponseDto> update(@PathVariable Long id,@RequestBody StudentRequestDto studentReq){
-        Student entity = mapToEntityReq(studentReq);
-        Student response = studentService.update(id,entity);
+
+        StudentResponseDto response = studentService.update(id,studentReq);
         if(response==null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(mapToDto(response));
+        return ResponseEntity.ok(response);
 
     }
 
